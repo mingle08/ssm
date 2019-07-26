@@ -28,6 +28,11 @@ public class EmpController {
 	public String add(Model model){
 		return "add";
 	}
+	@RequestMapping("/doAdd")
+	public void doAdd(Emp emp){
+		empService.insert(emp);
+		System.out.println("添加成功！");
+	}
 	
 	
 }

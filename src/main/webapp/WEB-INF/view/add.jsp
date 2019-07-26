@@ -14,7 +14,7 @@
 <title>新添</title>
 </head>
 <body>
-<form action="http://localhost/mvcmybatis/emp/list">
+<form action="<%=baseUrl %>emp/doAdd">
 name: <input type="text" name="name"><br>
 sex:  <input type="text" name="sex"><br>
 age:  <input type="text" name="age"><br>

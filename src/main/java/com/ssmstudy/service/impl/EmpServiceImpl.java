@@ -19,5 +19,9 @@ public class EmpServiceImpl implements EmpService {
 		
 		return empMapper.selectAll();
 	}
+	public void insert(Emp emp) {
+		
+		empMapper.insert(emp);
+	}
 
 }

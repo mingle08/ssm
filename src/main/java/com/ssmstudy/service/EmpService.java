@@ -7,4 +7,5 @@ import com.ssmstudy.entity.Emp;
 public interface EmpService {
 
 	List<Emp> selectAll();
+	void insert(Emp emp) ;
 }
