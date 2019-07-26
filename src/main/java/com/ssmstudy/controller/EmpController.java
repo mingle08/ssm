@@ -28,4 +28,6 @@ public class EmpController {
 	public String add(Model model){
 		return "add";
 	}
+	
+	
 }

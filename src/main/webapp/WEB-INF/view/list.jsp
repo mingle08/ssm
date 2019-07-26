@@ -9,10 +9,10 @@
 %>
 <!DOCTYPE html>
 <html>
-<title>首页</title>
+<title>员工列表</title>
         <base href="<%=baseUrl %>">
 <body>
-<h2>消息查询</h2>
+<h2>员工列表</h2>
 <table border="1">
                 <tr>
                     <td>姓名</td>
@@ -32,6 +32,6 @@
                     </tr>
                 </c:forEach>
             </table>
-<a href = "http://localhost:8082/mvcmybatis/emp/add">add</a>
+<a href = "<%=baseUrl %>emp/add">add</a>
 </body>
 </html>
