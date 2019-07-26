@@ -1,11 +1,10 @@
 ### STS ###
-.apt_generated
 .classpath
-.factorypath
 .project
 .settings
 .springBeans
 .class
+/target/
 
 ### IntelliJ IDEA ###
 .idea
