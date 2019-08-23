@@ -17,7 +17,9 @@
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>  
-  
+    <!-- 读取db.properties -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
     <!-- Mybatis 和 Spring的整合 -->  
     <!-- 1.数据源：DriverManagerDataSource -->  
     <bean id="dataSource"  
