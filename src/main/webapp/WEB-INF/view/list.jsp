@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <title>员工列表</title>
-        <base href="<%=baseUrl %>">
+
 <body>
 <h2>员工列表</h2>
 <table border="1">
