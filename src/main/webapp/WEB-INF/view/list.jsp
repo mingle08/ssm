@@ -31,6 +31,11 @@
                         <td>${emp.email}</td>
                     </tr>
                 </c:forEach>
+                <tr>
+                    <td>${student.name}&nbsp;&nbsp;</td>
+                    <td>${student.sex}</td>
+                    <td>${student.cardId}</td>
+                </tr>
             </table>
 <a href = "<%=baseUrl %>emp/add">add</a>
 </body>

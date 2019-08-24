@@ -156,6 +156,11 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.1.8</version>
+		</dependency>
 
 		<!--json、基本包 -->
 		<dependency>
@@ -198,8 +203,15 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+        <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.3.0</version>
+        </dependency>
 
-	</dependencies>
+
+    </dependencies>
 
 	<!--项目编译及其构建 -->
 	<build>

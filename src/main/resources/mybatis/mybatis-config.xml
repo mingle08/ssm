@@ -13,7 +13,7 @@
     </settings>  
     <!-- 为org.bb.ssm.mode.UserInfo 设置一个别名 UserInfo -->  
     <typeAliases>  
-        <typeAlias type="com.ssmstudy.entity.Emp" alias="Emp"/>  
+        <package name="com.ssmstudy.entity"/>
     </typeAliases>  
     <!-- <mappers>  
        <package name="com.ssmstudy.mapper"/>

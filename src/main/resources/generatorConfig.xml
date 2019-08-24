@@ -2,11 +2,11 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
 <generatorConfiguration>  
       
-    <!-- <properties resource="init.properties"/> -->  
+    <properties resource="conf/db.properties"/>
       
     <!-- 指定数据库连接驱动地址 -->  
     <classPathEntry  
-        location="D:\maven\repo\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />  
+        location="${jdbc.driverLocation}" />
     <!-- 一个数据库一个 context -->  
     <context id="context1">  
       
@@ -17,7 +17,7 @@
             <property name="suppressDate" value="true"></property>  
         </commentGenerator>  
         <!-- jdbc连接配置 -->  
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/db_study0721?useSSL=false&amp;serverTimezone=UTC" driverClass="com.mysql.cj.jdbc.Driver" password="hu820826" userId="root"/>  
+        <jdbcConnection connectionURL="${jdbc.url}" driverClass="${jdbc.driver}" password="${jdbc.password}" userId="${jdbc.username}"/>
               
         <!-- 类型转换 -->    
         <javaTypeResolver>    
@@ -27,20 +27,30 @@
           
         <!-- 生成实体类的地址 -->  
         <javaModelGenerator targetPackage="com.ssmstudy.entity"  
-            targetProject="E:\stspro\mvcmybatis\src\main\java" />  
+            targetProject=".\src\main\java" />
               
         <!-- 生成mapper.xml文件 -->  
         <sqlMapGenerator targetPackage="com.ssmstudy.mapper"  
-            targetProject="E:\stspro\mvcmybatis\src\main\resources" />  
+            targetProject=".\src\main\resources" />
          
         <!-- 生成mapxml对应的client 也就是接口dao -->  
         <javaClientGenerator targetPackage="com.ssmstudy.mapper"  
-            targetProject="E:\stspro\mvcmybatis\src\main\java" type="XMLMAPPER" />  
+            targetProject=".\src\main\java" type="XMLMAPPER" />
               
         <table schema="study" tableName="tb_emp"  domainObjectName="Emp" enableCountByExample="false"    
             enableDeleteByExample="false" enableSelectByExample="false"    
             enableUpdateByExample="false">  
             <!-- domainObjectName  指定生成的类的名字 -->  
-        </table>  
+        </table>
+        <table schema="study" tableName="tb_student_id_card"  domainObjectName="StudentIdCard" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+            <!-- domainObjectName  指定生成的类的名字 -->
+        </table>
+        <table schema="study" tableName="tb_student"  domainObjectName="Student" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+            <!-- domainObjectName  指定生成的类的名字 -->
+        </table>
     </context>  
 </generatorConfiguration> 

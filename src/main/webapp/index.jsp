@@ -13,6 +13,6 @@
 <meta charset="UTF-8"></head>
 <body>
 <h2>Hello World!</h2>
-<a href = "<%=baseUrl %>/emp/list">query</a>
+<a href = "<%=baseUrl %>emp/list">query</a>
 </body>
 </html>
