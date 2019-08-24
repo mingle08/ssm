@@ -23,7 +23,6 @@
                 </tr>
                 <c:forEach items="${empList}" var="emp">
                     <tr>
-                        
                         <td>${emp.name}&nbsp;&nbsp;</td>
                         <td>${emp.sex}</td>
                         <td>${emp.age}</td>

@@ -21,19 +21,19 @@ public class EmpController {
 	public String selectAll(Model model){
 		List<Emp> empList = empService.selectAll();
 		model.addAttribute(empList);
-		return "list";
+		return "empList";
 	}
 	
 	@RequestMapping("/add")
 	public String add(Model model){
-		return "add";
+		return "addEmp";
 	}
 	
 	@RequestMapping("/doAdd")
 	public String doAdd(Emp emp){
 		empService.insert(emp);
 		System.out.println("添加成功！");
-		return "redirect:list";
+		return "redirect:empList";
 	}
 	
 	

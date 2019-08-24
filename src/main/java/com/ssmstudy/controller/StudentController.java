@@ -22,14 +22,14 @@ public class StudentController {
 	public String selectAll(Model model){
 		List<StudentDTO> StudentDTOList = studentService.selectAll();
 		model.addAttribute(StudentDTOList);
-		return "list";
+		return "studentList";
 	}
 
 	@RequestMapping("/{id}")
 	public String selectAll(@PathVariable Integer id, Model model){
 		StudentDTO studentDTO = studentService.findStudentById(id);
 		model.addAttribute(studentDTO);
-		return "list";
+		return "studentDetail";
 	}
 
 

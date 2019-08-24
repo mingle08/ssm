@@ -9,11 +9,14 @@
 %>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8"></head>
+<title>学生信息详情</title>
+
 <body>
-<h2>Hello World!</h2>
-<a href = "<%=baseUrl %>emp/list">员工信息</a><br/>
-<a href = "<%=baseUrl %>student/list">学生信息</a>
+<h2>学生信息详情</h2>
+
+     姓名：<input name="name" value="${studentDTO.name}"><br/>
+     性别：<input name="sex" value="${studentDTO.sex}"><br/>
+     卡号：<input name="code" value="${studentDTO.code}"><br/>
+
 </body>
 </html>
