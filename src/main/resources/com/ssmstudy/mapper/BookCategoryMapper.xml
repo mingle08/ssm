@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssmstudy.mapper.BookCategoryMapper" >
+    <!-- 方式2：嵌套结果 -->
+    <resultMap id="CategoryWithStudentResult" type="com.ssmstudy.entity.BookCategory">
+        <id property="id" column="id"/>
+        <result property="categoryName" column="category_name"/>
+        <collection property="bookList" ofType="com.ssmstudy.entity.Book">
+            <id property="id" column="book_id"/>
+            <result property="bookName" column="book_name"/>
+            <result property="price" column="price"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="selectAll"  resultMap="CategoryWithStudentResult">
+        select c.*, b.id as book_id, b.book_name, b.price
+        from tb_book_category c, tb_book b
+        where c.id = b.category_id
+    </select>
+
+    <select id="findCategoryWithBook" parameterType="Integer" resultMap="CategoryWithStudentResult">
+        select c.*, b.id as book_id, b.book_name, b.price
+        from tb_book_category c, tb_book b
+        where c.id = b.category_id
+        and c.id = #{id}
+    </select>
+
+
+</mapper>

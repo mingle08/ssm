@@ -14,6 +14,7 @@
 <body>
 <h2>Hello World!</h2>
 <a href = "<%=baseUrl %>emp/list">员工信息</a><br/>
-<a href = "<%=baseUrl %>student/list">学生信息</a>
+<a href = "<%=baseUrl %>student/list">学生信息</a><br/>
+<a href = "<%=baseUrl %>bookCategory/list">书籍分类信息</a>
 </body>
 </html>
