@@ -1,6 +1,7 @@
 package com.ssmstudy.controller;
 
 import com.ssmstudy.entity.Student;
+import com.ssmstudy.entity.StudentDTO;
 import com.ssmstudy.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,15 +20,15 @@ public class StudentController {
 	
 	@RequestMapping("/list")
 	public String selectAll(Model model){
-		List<Student> StudentList = studentService.selectAll();
-		model.addAttribute(StudentList);
+		List<StudentDTO> StudentDTOList = studentService.selectAll();
+		model.addAttribute(StudentDTOList);
 		return "list";
 	}
 
 	@RequestMapping("/{id}")
 	public String selectAll(@PathVariable Integer id, Model model){
-		Student student = studentService.findStudentById(id);
-		model.addAttribute(student);
+		StudentDTO studentDTO = studentService.findStudentById(id);
+		model.addAttribute(studentDTO);
 		return "list";
 	}
 

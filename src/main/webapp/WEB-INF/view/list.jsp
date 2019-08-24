@@ -31,12 +31,19 @@
                         <td>${emp.email}</td>
                     </tr>
                 </c:forEach>
-                <tr>
-                    <td>${student.name}&nbsp;&nbsp;</td>
-                    <td>${student.sex}</td>
-                    <td>${student.cardId}</td>
-                </tr>
             </table>
 <a href = "<%=baseUrl %>emp/add">add</a>
+            <table>
+                <tr>
+                    <td>姓名</td>
+                    <td>性别</td>
+                    <td>卡号</td>
+                </tr>
+                <tr>
+                    <td>${studentDTO.name}&nbsp;&nbsp;</td>
+                    <td>${studentDTO.sex}</td>
+                    <td>${studentDTO.code}</td>
+                </tr>
+            </table>
 </body>
 </html>

@@ -1,11 +1,11 @@
 package com.ssmstudy.service;
 
-import com.ssmstudy.entity.Student;
+import com.ssmstudy.entity.StudentDTO;
 
 import java.util.List;
 
 public interface StudentService {
 
-	List<Student> selectAll();
-	Student findStudentById(Integer id) ;
+	List<StudentDTO> selectAll();
+	StudentDTO findStudentById(Integer id) ;
 }

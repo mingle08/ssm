@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ssmstudy.mapper.StudentExtMapper" >
-  <resultMap id="StudentIdCardWithStudentResult" type="Student">
+  <resultMap id="StudentIdCardWithStudentResult" type="com.ssmstudy.entity.StudentDTO">
     <id property="id" column="id"/>
     <result property="name" column="name"/>
     <result property="sex" column="sex"/>
-    <!-- 一对一，association使用select属性引入另一条sql语句 -->
-    <association property="cardId" column="card_id" javaType="StudentIdCard"
-                 select="com.ssmstudy.mapper.StudentIdCardExtMapper.findStudentCardIdById"/>
+    <result property="code" column="code"/>
   </resultMap>
 
-  <select id="selectAll" resultMap="com.ssmstudy.mapper.StudentMapper.BaseResultMap" >
-    select
-    <include refid="com.ssmstudy.mapper.StudentMapper.Base_Column_List" />
-    from tb_student
+  <select id="selectAll" resultMap="StudentIdCardWithStudentResult" >
+    select s.*, c.code
+    from tb_student s
+    join tb_student_id_card c
+    on s.card_id = c.id
   </select>
 
   <select id="findStudentById" parameterType="Integer" resultMap="StudentIdCardWithStudentResult">
-
-    select * from tb_student where id=#{id}
+    select s.*, c.code from tb_student s
+    join tb_student_id_card c
+    on s.card_id = c.id
+    where s.id = #{id}
   </select>
 
 
