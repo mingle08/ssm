@@ -19,14 +19,27 @@ public class BookCategoryController {
 	
 	@RequestMapping("/list")
 	public String selectAll(Model model){
-		List<BookCategory> BookCategoryList = BookCategoryService.selectAll();
-		model.addAttribute(BookCategoryList);
+	    // 方式1：嵌套查询
+        List<BookCategory> bookCategoryList = BookCategoryService.selectAll1();
+
+        // 方式2：嵌套结果
+//		List<BookCategory> bookCategoryList = BookCategoryService.selectAll2();
+
+		model.addAttribute(bookCategoryList);
+		for (BookCategory bookCategory : bookCategoryList) {
+			System.out.println(bookCategory);
+		}
 		return "bookCategoryList";
 	}
 
 	@RequestMapping("/{id}")
 	public String selectAll(@PathVariable Integer id, Model model){
-		BookCategory BookCategory = BookCategoryService.findCategoryWithBook(id);
+	    // 方式1：嵌套查询
+        BookCategory BookCategory = BookCategoryService.findCategoryWithBook1(id);
+
+        // 方式2：嵌套结果
+//		BookCategory BookCategory = BookCategoryService.findCategoryWithBook2(id);
+
 		model.addAttribute(BookCategory);
 		return "bookCategoryDetail";
 	}

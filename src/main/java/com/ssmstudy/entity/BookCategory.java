@@ -30,4 +30,13 @@ public class BookCategory {
     public void setBookList(List<Book> bookList) {
         this.bookList = bookList;
     }
+
+    @Override
+    public String toString() {
+        return "BookCategory{" +
+                "id=" + id +
+                ", categoryName='" + categoryName + '\'' +
+                ", bookList=" + bookList +
+                '}';
+    }
 }

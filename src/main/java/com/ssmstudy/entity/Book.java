@@ -28,4 +28,13 @@ public class Book {
     public void setPrice(Float price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", bookName='" + bookName + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
