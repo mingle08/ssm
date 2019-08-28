@@ -31,9 +31,10 @@ public class EmpController {
 	
 	@RequestMapping("/doAdd")
 	public String doAdd(Emp emp){
-		empService.insert(emp);
+//		empService.insert(emp);
+		empService.insertReturnKey(emp);
 		System.out.println("添加成功！");
-		return "redirect:empList";
+		return "redirect:list";
 	}
 	
 	

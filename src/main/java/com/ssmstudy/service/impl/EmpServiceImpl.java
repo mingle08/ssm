@@ -13,15 +13,22 @@ import com.ssmstudy.service.EmpService;
 public class EmpServiceImpl implements EmpService {
 
 	@Autowired
-	private EmpExtMapper empMapper;
+	private EmpExtMapper empExtMapper;
 	
 	public List<Emp> selectAll() {
 		
-		return empMapper.selectAll();
+		return empExtMapper.selectAll();
 	}
 	public void insert(Emp emp) {
-		
-		empMapper.insert(emp);
+
+		empExtMapper.insert(emp);
+	}
+
+	@Override
+	public void insertReturnKey(Emp emp) {
+		empExtMapper.insertReturnKey(emp);
+		// 插入操作完成之后，不需要再查询，直接能得到id值
+		System.out.println("回填的主键id= " + emp.getId());
 	}
 
 }

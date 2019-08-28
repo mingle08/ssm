@@ -7,5 +7,13 @@
     <include refid="com.ssmstudy.mapper.EmpMapper.Base_Column_List" />
     from tb_emp
   </select>
+
+  <!-- 主键回填 -->
+  <insert id="insertReturnKey" parameterType="com.ssmstudy.entity.Emp" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_emp (Name, sex, age, address, email)
+    values (#{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+    #{age,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
+    )
+  </insert>
   
 </mapper>

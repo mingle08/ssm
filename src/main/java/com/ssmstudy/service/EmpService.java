@@ -8,4 +8,5 @@ public interface EmpService {
 
 	List<Emp> selectAll();
 	void insert(Emp emp) ;
+	void insertReturnKey(Emp emp);
 }

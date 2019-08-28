@@ -7,4 +7,5 @@ import com.ssmstudy.entity.Emp;
 public interface EmpExtMapper extends EmpMapper {
 
 	List<Emp> selectAll();
+	void insertReturnKey(Emp emp);
 }
