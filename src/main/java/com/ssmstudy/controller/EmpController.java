@@ -34,7 +34,7 @@ public class EmpController {
 //		empService.insert(emp);
 		empService.insertReturnKey(emp);
 		System.out.println("添加成功！");
-		return "redirect:list";
+		return "redirect:list";  // redirect后面接的，不是jsp页面，而是@RequestMapping中的路径
 	}
 	
 	
