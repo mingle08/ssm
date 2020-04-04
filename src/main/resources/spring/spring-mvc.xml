@@ -32,6 +32,12 @@
                         <value>application/json;charset=UTF-8</value>
                     </list>
                 </property>
+                <property name="serializerFeatures">
+                    <array><!-- 输出时某字段为String类型,且值为null,此时若需要其输出,且输出值为空字符串,则二者需同时配置 -->
+                        <value>WriteMapNullValue</value>
+                        <value>WriteNullStringAsEmpty</value>
+                    </array>
+                </property>
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
