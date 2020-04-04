@@ -28,6 +28,7 @@
                         <td>${emp.age}</td>
                         <td>${emp.address}</td>
                         <td>${emp.email}</td>
+                        <td><a href = "<%=baseUrl %>emp/del?id=${emp.id}">del</a></td>
                     </tr>
                 </c:forEach>
             </table>
