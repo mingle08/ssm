@@ -14,6 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.version>4.3.18.RELEASE</spring.version>
+		<spring.rabbitmq>2.2.20.RELEASE</spring.rabbitmq>
 	</properties>
 
 	<!--Maven依赖 需要更换可以到http://mvnrepository.com进行查询 -->
@@ -209,6 +210,12 @@
             <artifactId>cglib</artifactId>
             <version>3.3.0</version>
         </dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-rabbit -->
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+			<version>${spring.rabbitmq}</version>
+		</dependency>
 
 
     </dependencies>
@@ -259,35 +266,12 @@
 		    <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-compiler-plugin</artifactId>
-		        <version>2.3.2</version>
+		        <version>3.8.0</version>
 		        <configuration>
 		            <source>1.8</source>
 		            <target>1.8</target>
 		        </configuration>
 		    </plugin>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<inherited>true</inherited>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<testFailureIgnore>true</testFailureIgnore>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<!-- 此处由3.2升级为3.3.原因是maven版本3.1的，需要3,3才能兼容.否则会报错：java.lang.NoClassDefFoundError: 
-					org/sonatype/aether/graph/DependencyFilter -->
-				<version>3.3</version>
-				<configuration>
-					<locales>zh_CN</locales>
-				</configuration>
-			</plugin>
 
 		</plugins>
 	</build>
