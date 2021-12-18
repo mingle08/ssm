@@ -15,7 +15,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.version>4.3.18.RELEASE</spring.version>
 		<spring.rabbitmq>2.2.20.RELEASE</spring.rabbitmq>
-		<dubbo.version>2.7.13</dubbo.version>
+		<dubbo.version>2.6.6</dubbo.version>
 	</properties>
 
 	<!--Maven依赖 需要更换可以到http://mvnrepository.com进行查询 -->
@@ -222,13 +222,14 @@
 			<artifactId>spring-jms</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.alibaba/dubbo -->
 		<dependency>
-			<groupId>org.apache.dubbo</groupId>
+			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
 			<version>${dubbo.version}</version>
 		</dependency>
 
-    </dependencies>
+	</dependencies>
 
 	<!--项目编译及其构建 -->
 	<build>
