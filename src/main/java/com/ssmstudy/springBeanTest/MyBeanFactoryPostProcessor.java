@@ -13,8 +13,7 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
     }
 
     @Override
-    public void postProcessBeanFactory(
-        ConfigurableListableBeanFactory arg0) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory arg0) throws BeansException {
         System.out.println("BeanFactoryPostProcessor调用postProcessBeanFactory方法");
         BeanDefinition bd = arg0.getBeanDefinition("person");
         // 改掉了配置文件中配置的电话号码
