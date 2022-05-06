@@ -4,16 +4,16 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean id="beanPostProcessor" class="com.ssmstudy.springBeanTest.MyBeanPostProcessor">
+  <bean id="beanPostProcessor" class="com.ssmstudy.spring.lifecycleDemo.MyBeanPostProcessor">
   </bean>
 
-  <bean id="instantiationAwareBeanPostProcessor" class="com.ssmstudy.springBeanTest.MyInstantiationAwareBeanPostProcessor">
+  <bean id="instantiationAwareBeanPostProcessor" class="com.ssmstudy.spring.lifecycleDemo.MyInstantiationAwareBeanPostProcessor">
   </bean>
 
-  <bean id="beanFactoryPostProcessor" class="com.ssmstudy.springBeanTest.MyBeanFactoryPostProcessor">
+  <bean id="beanFactoryPostProcessor" class="com.ssmstudy.spring.lifecycleDemo.MyBeanFactoryPostProcessor">
   </bean>
 
-  <bean id="person" class="com.ssmstudy.springBeanTest.Person" init-method="myInit"
+  <bean id="person" class="com.ssmstudy.spring.lifecycleDemo.Person" init-method="myInit"
     destroy-method="myDestory" scope="singleton">
     <property name="name" value="张三"/>
     <property name="address" value="广州"/>

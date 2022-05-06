@@ -1,0 +1,2 @@
+bird=com.ssmstudy.dubbo.spi.dubboSpi.Bird
+cat=com.ssmstudy.dubbo.spi.dubboSpi.Cat

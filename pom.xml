@@ -13,9 +13,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<spring.version>4.3.27.RELEASE</spring.version>
-		<spring.rabbitmq>1.7.9.RELEASE</spring.rabbitmq>
-		<dubbo.version>2.6.11</dubbo.version>
+		<spring.version>4.3.18.RELEASE</spring.version>
+		<spring.rabbitmq>2.2.20.RELEASE</spring.rabbitmq>
+		<dubbo.version>2.6.6</dubbo.version>
 	</properties>
 
 	<!--Maven依赖 需要更换可以到http://mvnrepository.com进行查询 -->
@@ -228,7 +228,24 @@
 			<artifactId>dubbo</artifactId>
 			<version>${dubbo.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.openjdk.jol</groupId>
+			<artifactId>jol-core</artifactId>
+			<version>0.9</version>
+		</dependency>
 
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.redisson/redisson -->
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>3.15.6</version>
+		</dependency>
 	</dependencies>
 
 	<!--项目编译及其构建 -->
@@ -251,7 +268,7 @@
 							<filtering>true</filtering>
 						</resource>
 						<resource>
-							<directory>src/main/java</directory>							
+							<directory>src/main/java</directory>
 							<targetPath>WEB-INF/classes</targetPath>
 						</resource>
 					</webResources>
