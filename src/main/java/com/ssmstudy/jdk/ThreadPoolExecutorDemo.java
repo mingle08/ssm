@@ -1,6 +1,9 @@
 package com.ssmstudy.jdk;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ThreadPoolExecutorDemo {
 
@@ -52,9 +55,28 @@ public class ThreadPoolExecutorDemo {
      */
     public static void main(String[] args) {
         // The main pool control state, ctl
-        final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
-        System.out.println("ctl=" + ctl + ", CAPACITY=" + CAPACITY + "，RUNNING=" + RUNNING + "，STOP=" + STOP + ", TIDYING=" + TIDYING);
+        /*final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
+        System.out.println("ctl=" + ctl + ", CAPACITY=" + CAPACITY + "，RUNNING=" + RUNNING + "，STOP=" + STOP + ", TIDYING=" + TIDYING);*/
         // ctl=-536870912, CAPACITY=536870911，RUNNING=-536870912，STOP=536870912, TIDYING=1073741824
+
+
+
+        ThreadPoolExecutor executorService = new ThreadPoolExecutor(2, 2,30, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
+        Future future = executorService.submit(() -> {
+            testThread("submit");
+        });
+
+        try {
+            future.get();
+        } catch (Exception e) {
+            System.out.println("future.get Exception");
+            e.printStackTrace();
+        }
     }
+    private static int testThread(String name) {
+        int i = 1 / 0;
+        return i;
+    }
+
 
 }
