@@ -16,6 +16,7 @@
 		<spring.version>4.3.18.RELEASE</spring.version>
 		<spring.rabbitmq>2.2.20.RELEASE</spring.rabbitmq>
 		<dubbo.version>2.6.6</dubbo.version>
+		<spring-data-redis.version>2.1.4.RELEASE</spring-data-redis.version>
 	</properties>
 
 	<!--Maven依赖 需要更换可以到http://mvnrepository.com进行查询 -->
@@ -246,6 +247,19 @@
 			<artifactId>redisson</artifactId>
 			<version>3.15.6</version>
 		</dependency>
+
+		<!--StringRedisTemplate依赖-->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${spring-data-redis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<!--项目编译及其构建 -->
