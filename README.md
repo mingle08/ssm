@@ -730,7 +730,12 @@ public T newInstance(Object ... initargs)
         checkAccess(caller, clazz, null, modifiers);
      }
    }
-   // 如果是ENUM，抛出异常
+   /*
+      如果是ENUM，抛出异常
+      因为ENUM的二进制表示中，只有一位是1，其余都是0.
+      再看看Modifier类中其他modifier的值，都是只有一位是1，其余位都是0.
+      那么只有ENUM和ENUM做&运算，才是1，其他modifier和ENUM做&运算，结果都是0          
+   */
    if ((clazz.getModifiers() & Modifier.ENUM) != 0)
       throw new IllegalArgumentException("Cannot reflectively create enum objects");
    ConstructorAccessor ca = constructorAccessor;   // read volatile
@@ -741,6 +746,14 @@ public T newInstance(Object ... initargs)
    T inst = (T) ca.newInstance(initargs);
      return inst;
 }
+
+// Modifier.java
+static final int BRIDGE    = 0x00000040;
+static final int VARARGS   = 0x00000080;
+static final int SYNTHETIC = 0x00001000;
+static final int ANNOTATION  = 0x00002000;
+static final int ENUM      = 0x00004000;
+static final int MANDATED  = 0x00008000;
 ```
 
 #### 18，Dubbo SPI
@@ -752,10 +765,20 @@ c. 增加了对扩展IOC和AOP的支持，一个扩展可以直接setter注入�
 会一次把某接口下的所有实现庆全部初始化，用户直接调用即可。 Dubbo SPI只是加载配置文件中的类，并分成不同的种类缓存在内存中，而不会立即全部初始化，在性能上有更好的表现。
 
 ```java
-// IOC
-
+// ExtensionLoader.java
+// IOC 向扩展类注入其依赖的属性，如扩展类A又依赖了扩展类B
+injectExtension(instance);
 
 // AOP
+Set<Class<?>> wrapperClasses = cachedWrapperClasses;
+if (wrapperClasses != null && !wrapperClasses.isEmpty()) {
+    // 遍历扩展点包装类，用于初始化包装类实例
+    for (Class<?> wrapperClass : wrapperClasses) {
+    // 找到构造方法参数类型为type（扩展类的类型）的包装类，为其注入扩展类实例
+    instance = injectExtension((T) wrapperClass.getConstructor(type)
+.newInstance(instance));
+    }
+}
 ```
 
 （2）ExtensionLoader的工作原理
@@ -763,6 +786,58 @@ c. 增加了对扩展IOC和AOP的支持，一个扩展可以直接setter注入�
 ExtensionLoader的逻辑入口可以分为：<br>
 a. getExtension  获取普通扩展类<br>
 b. getAdaptiveExtension  获取自适应扩展类<br>
+```java
+@SuppressWarnings("unchecked")
+public T getAdaptiveExtension() {
+    Object instance = cachedAdaptiveInstance.get();
+    if (instance == null) {
+        if (createAdaptiveInstanceError == null) {
+            synchronized (cachedAdaptiveInstance) {
+                instance = cachedAdaptiveInstance.get();
+                if (instance == null) {
+                    try {
+                        instance = createAdaptiveExtension();
+                        cachedAdaptiveInstance.set(instance);
+                    } catch (Throwable t) {
+                        createAdaptiveInstanceError = t;
+                        throw new IllegalStateException("fail to create adaptive instance: " + t.toString(), t);
+                    }
+                }
+            }
+        } else {
+            throw new IllegalStateException("fail to create adaptive instance: " + createAdaptiveInstanceError.toString(), createAdaptiveInstanceError);
+        }
+    }
+
+    return (T) instance;
+}
+
+// 方法createAdaptiveExtension
+private T createAdaptiveExtension() {
+    try {
+    return injectExtension((T) getAdaptiveExtensionClass().newInstance());
+    } catch (Exception e) {
+    throw new IllegalStateException("Can not create adaptive extension " + type + ", cause: " + e.getMessage(), e);
+    }
+}
+
+private Class<?> getAdaptiveExtensionClass() {
+    getExtensionClasses();
+    if (cachedAdaptiveClass != null) {
+    return cachedAdaptiveClass;
+    }
+    return cachedAdaptiveClass = createAdaptiveExtensionClass();
+}
+
+private Class<?> createAdaptiveExtensionClass() {
+    // createAdaptiveExtensionClassCode方法生成code字符串
+    String code = createAdaptiveExtensionClassCode();
+    ClassLoader classLoader = findClassLoader();
+    com.alibaba.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(com.alibaba.dubbo.common.compiler.Compiler.class).getAdaptiveExtension();
+    // 用编译器将字符串形式的java类编译成真正的java类
+    return compiler.compile(code, classLoader);
+}
+```
 c. getActivateExtension  获取自动激活的扩展类<br>
 
 （3）扩展点动态编译的实现
