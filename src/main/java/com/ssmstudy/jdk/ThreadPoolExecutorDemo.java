@@ -63,7 +63,7 @@ public class ThreadPoolExecutorDemo {
 
         ThreadPoolExecutor executorService = new ThreadPoolExecutor(2, 2,30, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
         Future future = executorService.submit(() -> {
-            testThread("submit");
+            testThread();
         });
 
         try {
@@ -73,7 +73,7 @@ public class ThreadPoolExecutorDemo {
             e.printStackTrace();
         }
     }
-    private static int testThread(String name) {
+    private static int testThread() {
         int i = 1 / 0;
         return i;
     }

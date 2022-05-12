@@ -756,10 +756,7 @@ c. 增加了对扩展IOC和AOP的支持，一个扩展可以直接setter注入�
 
 
 // AOP
-
 ```
-
-
 
 （2）ExtensionLoader的工作原理
 
@@ -2399,3 +2396,258 @@ https://www.zhangshengrong.com/p/7B1LqVWDaw/
 为了保证消息从队列可靠地到达消费者，RabbitMQ提供消息确认机制(message acknowledgment)。消费者在声明队列时，可以指定noAck参数，当noAck=false时，RabbitMQ会等待消费者显式发回ack信号后才从内存(和磁盘，如果是持久化消息的话)中移去消息。否则，RabbitMQ会在队列中消息被消费后立即删除它。
 采用消息确认机制后，只要令noAck=false，消费者就有足够的时间处理消息(任务)，不用担心处理消息过程中消费者进程挂掉后消息丢失的问题，因为RabbitMQ会一直持有消息直到消费者显式调用basicAck为止。
 在Consumer中Confirm模式中分为手动确认和自动确认。
+
+#### 62，线程池submit不抛异常的原因
+![线程池submit](img_19_线程池的相关类继承关系.png)
+```java
+ThreadPoolExecutor executorService = new ThreadPoolExecutor(2, 2,30, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
+        Future future = executorService.submit(() -> {
+            testThread();
+        });
+        
+// AbstractExecutorService.java
+public Future<?> submit(Runnable task) {
+    if (task == null) throw new NullPointerException();
+    RunnableFuture<Void> ftask = newTaskFor(task, null);
+    execute(ftask);
+    return ftask;
+}
+
+protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
+    return new FutureTask<T>(runnable, value);
+}
+
+// 转到FutureTask.java
+public FutureTask(Runnable runnable, V result) {
+    this.callable = Executors.callable(runnable, result);
+    this.state = NEW;       // ensure visibility of callable
+}
+
+// 转到Executors.java
+public static <T> Callable<T> callable(Runnable task, T result) {
+    if (task == null)
+    throw new NullPointerException();
+    return new RunnableAdapter<T>(task, result);
+}
+
+// 进入RunnableAdapter.java
+// 实现了Callable接口，把Runnable转化为Callable
+static final class RunnableAdapter<T> implements Callable<T> {
+    final Runnable task;
+    final T result;
+    RunnableAdapter(Runnable task, T result) {
+        this.task = task;
+        this.result = result;
+    }
+    public T call() {
+        task.run();
+        return result;
+    }
+}
+
+// 回到AbstractExecutorService，向下看execute方法
+// 进入到实现类ThreadPoolExecutor
+public void execute(Runnable command) {
+    if (command == null)
+        throw new NullPointerException();
+    /*
+     * Proceed in 3 steps:
+     *
+     * 1. If fewer than corePoolSize threads are running, try to
+     * start a new thread with the given command as its first
+     * task.  The call to addWorker atomically checks runState and
+     * workerCount, and so prevents false alarms that would add
+     * threads when it shouldn't, by returning false.
+     *
+     * 2. If a task can be successfully queued, then we still need
+     * to double-check whether we should have added a thread
+     * (because existing ones died since last checking) or that
+     * the pool shut down since entry into this method. So we
+     * recheck state and if necessary roll back the enqueuing if
+     * stopped, or start a new thread if there are none.
+     *
+     * 3. If we cannot queue task, then we try to add a new
+     * thread.  If it fails, we know we are shut down or saturated
+     * and so reject the task.
+     */
+    int c = ctl.get();
+    if (workerCountOf(c) < corePoolSize) {
+        if (addWorker(command, true))
+            return;
+        c = ctl.get();
+    }
+    if (isRunning(c) && workQueue.offer(command)) {
+        int recheck = ctl.get();
+        if (! isRunning(recheck) && remove(command))
+            reject(command);
+        else if (workerCountOf(recheck) == 0)
+            addWorker(null, false);
+    }
+    else if (!addWorker(command, false))
+        reject(command);
+}
+
+// 进入addWorker方法
+private boolean addWorker(Runnable firstTask, boolean core) {
+    retry:
+    for (;;) {
+        int c = ctl.get();
+        int rs = runStateOf(c);
+
+        // Check if queue empty only if necessary.
+        if (rs >= SHUTDOWN &&
+                ! (rs == SHUTDOWN &&
+                        firstTask == null &&
+                        ! workQueue.isEmpty()))
+            return false;
+
+        for (;;) {
+            int wc = workerCountOf(c);
+            if (wc >= CAPACITY ||
+                    wc >= (core ? corePoolSize : maximumPoolSize))
+                return false;
+            if (compareAndIncrementWorkerCount(c))
+                break retry;
+            c = ctl.get();  // Re-read ctl
+            if (runStateOf(c) != rs)
+                continue retry;
+            // else CAS failed due to workerCount change; retry inner loop
+        }
+    }
+
+    boolean workerStarted = false;
+    boolean workerAdded = false;
+    Worker w = null;
+    try {
+        w = new Worker(firstTask);
+        final Thread t = w.thread;
+        if (t != null) {
+            final ReentrantLock mainLock = this.mainLock;
+            mainLock.lock();
+            try {
+                // Recheck while holding lock.
+                // Back out on ThreadFactory failure or if
+                // shut down before lock acquired.
+                int rs = runStateOf(ctl.get());
+
+                if (rs < SHUTDOWN ||
+                        (rs == SHUTDOWN && firstTask == null)) {
+                    if (t.isAlive()) // precheck that t is startable
+                        throw new IllegalThreadStateException();
+                    workers.add(w);
+                    int s = workers.size();
+                    if (s > largestPoolSize)
+                        largestPoolSize = s;
+                    workerAdded = true;
+                }
+            } finally {
+                mainLock.unlock();
+            }
+            if (workerAdded) {
+                // 这一步debug是没法step into的，因为调用操作系统new线程
+                t.start();
+                workerStarted = true;
+            }
+        }
+    } finally {
+        if (! workerStarted)
+            addWorkerFailed(w);
+    }
+    return workerStarted;
+}
+
+// t.start()方法，是新建一个线程去执行Work类的run方法
+    // 内部类Worker.java
+public void run() {
+    runWorker(this);
+}
+
+final void runWorker(Worker w) {
+    Thread wt = Thread.currentThread();
+    Runnable task = w.firstTask;
+    w.firstTask = null;
+    w.unlock(); // allow interrupts
+    boolean completedAbruptly = true;
+    try {
+        while (task != null || (task = getTask()) != null) {
+            w.lock();
+            // If pool is stopping, ensure thread is interrupted;
+            // if not, ensure thread is not interrupted.  This
+            // requires a recheck in second case to deal with
+            // shutdownNow race while clearing interrupt
+            if ((runStateAtLeast(ctl.get(), STOP) ||
+                    (Thread.interrupted() &&
+                            runStateAtLeast(ctl.get(), STOP))) &&
+                    !wt.isInterrupted())
+                wt.interrupt();
+            try {
+                beforeExecute(wt, task);
+                Throwable thrown = null;
+                try {
+                    // 因为task是FutureTask，所以看FutureTask的run方法
+                    task.run();
+                } catch (RuntimeException x) {
+                    thrown = x; throw x;
+                } catch (Error x) {
+                    thrown = x; throw x;
+                } catch (Throwable x) {
+                    thrown = x; throw new Error(x);
+                } finally {
+                    afterExecute(task, thrown);
+                }
+            } finally {
+                task = null;
+                w.completedTasks++;
+                w.unlock();
+            }
+        }
+        completedAbruptly = false;
+    } finally {
+        processWorkerExit(w, completedAbruptly);
+    }
+}
+
+// FutureTask.java
+public void run() {
+    if (state != NEW ||
+            !UNSAFE.compareAndSwapObject(this, runnerOffset,
+                    null, Thread.currentThread()))
+        return;
+    try {
+        Callable<V> c = callable;
+        if (c != null && state == NEW) {
+            V result;
+            boolean ran;
+            try {
+                result = c.call();
+                ran = true;
+            } catch (Throwable ex) {
+                result = null;
+                ran = false;
+                // 如果抛异常，异常被设置
+                setException(ex);
+            }
+            if (ran)
+                set(result);
+        }
+    } finally {
+        // runner must be non-null until state is settled to
+        // prevent concurrent calls to run()
+        runner = null;
+        // state must be re-read after nulling runner to prevent
+        // leaked interrupts
+        int s = state;
+        if (s >= INTERRUPTING)
+            handlePossibleCancellationInterrupt(s);
+    }
+}
+
+// 异常被赋值给outcome属性
+protected void setException(Throwable t) {
+    if (UNSAFE.compareAndSwapInt(this, stateOffset, NEW, COMPLETING)) {
+        outcome = t;
+        UNSAFE.putOrderedInt(this, stateOffset, EXCEPTIONAL); // final state
+        finishCompletion();
+    }
+}
+```
