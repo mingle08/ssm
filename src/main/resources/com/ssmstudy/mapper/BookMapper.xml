@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssmstudy.mapper.BookMapper" >
+
+    <select id="selectBookForCategory" parameterType="java.lang.Integer" resultType="com.ssmstudy.entity.Book">
+        SELECT
+            b.id,
+            b.book_name,
+            b.price,
+            b.category_id
+        FROM tb_book b
+        WHERE 1=1
+        <!-- 当入参不是map,而是仅传入一个类型为String或Integer的参数，那么在xml文件中应该使用_parameter来代替参数名。 -->
+        <if test="_parameter != null">
+          and b.category_id = #{_parameter, jdbcType=INTEGER}
+        </if>
+    </select>
+
+</mapper>

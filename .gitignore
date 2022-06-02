@@ -1,0 +1,15 @@
+### STS ###
+.classpath
+.project
+.settings
+.springBeans
+.class
+/target/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+.vscode
