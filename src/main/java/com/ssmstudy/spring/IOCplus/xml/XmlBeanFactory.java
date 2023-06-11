@@ -1,7 +1,7 @@
 package com.ssmstudy.spring.IOCplus.xml;
 
 import com.ssmstudy.spring.IOCplus.BeanDefinition;
-import com.ssmstudy.spring.IOCplus.BeanPostProcessor;
+import com.ssmstudy.spring.IOCplus.CustomBeanPostProcessor;
 import com.ssmstudy.spring.IOCplus.BeanReference;
 import com.ssmstudy.spring.IOCplus.PropertyValue;
 import com.ssmstudy.spring.IOCplus.factory.BeanFactory;
@@ -20,7 +20,7 @@ public class XmlBeanFactory implements BeanFactory {
 
     private List<String> beanDefinitionNames = new ArrayList<>();
 
-    private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
+    private List<CustomBeanPostProcessor> customBeanPostProcessors = new ArrayList<CustomBeanPostProcessor>();
 
     private MyXmlBeanDefinitionReader beanDefinitionReader;
 
@@ -81,12 +81,12 @@ public class XmlBeanFactory implements BeanFactory {
     }
 
     private Object initializeBean(Object bean, String name) throws Exception {
-        for (BeanPostProcessor beanPostProcessor : beanPostProcessors) {
-            bean = beanPostProcessor.postProcessBeforeInitialization(bean, name);
+        for (CustomBeanPostProcessor customBeanPostProcessor : customBeanPostProcessors) {
+            bean = customBeanPostProcessor.postProcessBeforeInitialization(bean, name);
         }
 
-        for (BeanPostProcessor beanPostProcessor : beanPostProcessors) {
-            bean = beanPostProcessor.postProcessAfterInitialization(bean, name);
+        for (CustomBeanPostProcessor customBeanPostProcessor : customBeanPostProcessors) {
+            bean = customBeanPostProcessor.postProcessAfterInitialization(bean, name);
         }
 
         return bean;
@@ -108,14 +108,14 @@ public class XmlBeanFactory implements BeanFactory {
     }
 
     public void registerBeanPostProcessor() throws Exception {
-        List beans = getBeansForType(BeanPostProcessor.class);
+        List beans = getBeansForType(CustomBeanPostProcessor.class);
         for (Object bean : beans) {
-            addBeanPostProcessor((BeanPostProcessor) bean);
+            addBeanPostProcessor((CustomBeanPostProcessor) bean);
         }
     }
 
-    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
-        beanPostProcessors.add(beanPostProcessor);
+    public void addBeanPostProcessor(CustomBeanPostProcessor customBeanPostProcessor) {
+        customBeanPostProcessors.add(customBeanPostProcessor);
     }
 
     public List getBeansForType(Class type) throws Exception {

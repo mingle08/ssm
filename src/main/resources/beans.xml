@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean id="beanPostProcessor" class="com.ssmstudy.spring.lifecycleDemo.MyBeanPostProcessor">
+  <bean id="customBeanPostProcessor" class="com.ssmstudy.spring.lifecycleDemo.MyBeanPostProcessor">
   </bean>
 
   <bean id="instantiationAwareBeanPostProcessor" class="com.ssmstudy.spring.lifecycleDemo.MyInstantiationAwareBeanPostProcessor">

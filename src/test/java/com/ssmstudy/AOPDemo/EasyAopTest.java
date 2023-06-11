@@ -1,8 +1,12 @@
 package com.ssmstudy.AOPDemo;
 
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.ssmstudy.spring.AOP.EasyAop.*;
+import com.ssmstudy.spring.lifecycleDemo.AlgoCalculator;
+import com.ssmstudy.spring.lifecycleDemo.AopConfig;
 
 public class EasyAopTest {
     @Test
@@ -19,5 +23,13 @@ public class EasyAopTest {
 
         helloServiceImplProxy.sayHello();
 
+    }
+    ApplicationContext context = new AnnotationConfigApplicationContext(AopConfig.class);
+
+    @Test
+    public void testAop() {
+        System.out.println("ioc容器已创建完成");
+        AlgoCalculator calculator = context.getBean(AlgoCalculator.class);
+        calculator.div(100, 4);
     }
 }
