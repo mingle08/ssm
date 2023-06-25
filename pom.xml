@@ -27,6 +27,8 @@
 		<commons-io.version>2.11.0</commons-io.version>
 		<commons-chain.version>1.2</commons-chain.version>
 		<commons-digester.version>3.2</commons-digester.version>
+		<apache-httpclient.version>4.5.14</apache-httpclient.version>
+		<apache-httpclient5.version>5.2.1</apache-httpclient5.version>
 	</properties>
 
 	<!--Maven依赖 需要更换可以到http://mvnrepository.com进行查询 -->
@@ -361,6 +363,21 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-digester3</artifactId>
 			<version>${commons-digester.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${apache-httpclient.version}</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5 -->
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+			<version>${apache-httpclient5.version}</version>
 		</dependency>
 
 	</dependencies>
