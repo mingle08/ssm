@@ -1,6 +1,6 @@
 package com.ssmstudy.mapstruct;
 
-public class DemoDtoB {
+public class DtoB {
     private int id;
 
     // HHmm

@@ -1,6 +1,6 @@
 package com.ssmstudy.mapstruct;
 
-public class DemoDtoA {
+public class DtoA {
     private int id;
 
     // time pattern  HH:mm

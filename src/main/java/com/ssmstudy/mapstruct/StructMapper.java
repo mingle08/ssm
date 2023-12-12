@@ -10,13 +10,27 @@ import org.mapstruct.factory.Mappers;
 public interface StructMapper {
     StructMapper INSTANCE = Mappers.getMapper(StructMapper.class);
 
-    @Mapping(target = "fromInt", expression = "java(convertTimeStringToInt(dto1.getFromTime()))")
-    @Mapping(target = "toInt", expression = "java(convertTimeStringToInt(dto1.getToTime()))")
-    DemoDtoB convert(DemoDtoA dto1);
+    // convert A to B
+    @Mapping(target = "fromInt", expression = "java(convertTimeStringToInt(dtoA.getFromTime()))")
+    @Mapping(target = "toInt", expression = "java(convertTimeStringToInt(dtoA.getToTime()))")
+    DtoB convert(DtoA dtoA);
 
-    List<DemoDtoB> convertList(List<DemoDtoA> list);
+    List<DtoB> convertList(List<DtoA> list);
 
     default int convertTimeStringToInt(String timeString) {
         return Integer.valueOf(timeString.replace(":", ""));
+    }
+
+    // convert C to D
+    @Mapping(target = "fromInt", expression = "java(convertTimeToMinutes(dtoC.getFromTime()))")
+    @Mapping(target = "toInt", expression = "java(convertTimeToMinutes(dtoC.getToTime()))")
+    DtoD convertC2D(DtoC dtoC);
+
+    List<DtoD> convertC2DList(List<DtoC> list);
+
+    default int convertTimeToMinutes(String timeString) {
+        String[] hm = timeString.split(":");
+
+        return Integer.parseInt(hm[0]) * 60 + Integer.parseInt(hm[1]);
     }
 }
