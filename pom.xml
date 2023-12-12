@@ -29,6 +29,7 @@
 		<commons-digester.version>3.2</commons-digester.version>
 		<apache-httpclient.version>4.5.14</apache-httpclient.version>
 		<apache-httpclient5.version>5.2.1</apache-httpclient5.version>
+		<mapstruct.version>1.5.5.Final</mapstruct.version>
 	</properties>
 
 	<!--Maven依赖 需要更换可以到http://mvnrepository.com进行查询 -->
@@ -405,14 +406,14 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.5.5.Final</version>
+			<version>${mapstruct.version}</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
-			<version>1.5.5.Final</version>
+			<version>${mapstruct.version}</version>
 		</dependency>
 
 
