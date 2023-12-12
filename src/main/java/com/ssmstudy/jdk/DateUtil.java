@@ -27,4 +27,8 @@ public class DateUtil {
 
         return xmlGregorianCalendar;
     }
+
+    public static void main(String[] args) {
+        System.out.println("abcd\ref");
+    }
 }
