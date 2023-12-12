@@ -1,4 +1,6 @@
-package com.ssmstudy.spring.IOCdemo.dao;
+package com.ssmstudy.spring.IOCdemo.dao.impl;
+
+import com.ssmstudy.spring.IOCdemo.dao.UserDao;
 
 public class UserDaoOracleImpl implements UserDao {
     @Override

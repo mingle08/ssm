@@ -2,7 +2,7 @@ package com.ssmstudy.IOCdemo;
 
 import org.junit.Test;
 
-import com.ssmstudy.spring.IOCdemo.dao.UserDaoMysqlImpl;
+import com.ssmstudy.spring.IOCdemo.dao.impl.UserDaoMysqlImpl;
 import com.ssmstudy.spring.IOCdemo.service.UserService;
 import com.ssmstudy.spring.IOCdemo.service.impl.UserServiceImpl;
 
