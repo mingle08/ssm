@@ -1,5 +1,8 @@
 package com.ssmstudy.mapstruct;
 
+import lombok.Data;
+
+@Data
 public class DtoC {
     private int id;
 
@@ -9,29 +12,6 @@ public class DtoC {
     // time pattern  HH:mm
     private String toTime;
 
-    public int getId() {
-        return id;
-    }
+    private Integer nextCouponRate;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFromTime() {
-        return fromTime;
-    }
-
-    public void setFromTime(String fromTime) {
-        this.fromTime = fromTime;
-    }
-
-    public String getToTime() {
-        return toTime;
-    }
-
-    public void setToTime(String toTime) {
-        this.toTime = toTime;
-    }
-
-    
 }

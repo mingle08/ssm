@@ -31,18 +31,21 @@ public class DemoTest {
         c1.setId(2);
         c1.setFromTime("09:13");
         c1.setToTime("10:11");
+        c1.setNextCouponRate(20);
         listC.add(c1);
 
         DtoC c2 = new DtoC();
         c2.setId(3);
         c2.setFromTime("12:22");
         c2.setToTime("14:22");
+        c2.setNextCouponRate(30);
         listC.add(c2);
 
         List<DtoD> listD = StructMapper.INSTANCE.convertC2DList(listC);
 
         for (DtoD demoDtoD : listD) {
-            System.out.println("demoDtoD: fromInt=" + demoDtoD.getFromInt() + ", toInt=" + demoDtoD.getToInt());
+            System.out.println("demoDtoD: fromInt=" + demoDtoD.getFromInt() + 
+            ", toInt=" + demoDtoD.getToInt() + ", nextCouponRate=" + demoDtoD.getNextCouponRate());
         }
     }
 }
