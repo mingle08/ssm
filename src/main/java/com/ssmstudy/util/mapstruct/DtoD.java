@@ -1,9 +1,9 @@
-package com.ssmstudy.mapstruct;
+package com.ssmstudy.util.mapstruct;
 
 import lombok.Data;
 
 @Data
-public class DtoB {
+public class DtoD {
     private int id;
 
     // HHmm
@@ -11,5 +11,7 @@ public class DtoB {
 
     // HHmm
     private int toInt;
-   
+
+    private Integer nextCouponRate;
+
 }

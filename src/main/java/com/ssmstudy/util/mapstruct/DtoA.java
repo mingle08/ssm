@@ -1,9 +1,9 @@
-package com.ssmstudy.mapstruct;
+package com.ssmstudy.util.mapstruct;
 
 import lombok.Data;
 
 @Data
-public class DtoC {
+public class DtoA {
     private int id;
 
     // time pattern  HH:mm
@@ -11,7 +11,5 @@ public class DtoC {
 
     // time pattern  HH:mm
     private String toTime;
-
-    private Integer nextCouponRate;
 
 }

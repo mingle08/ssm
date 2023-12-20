@@ -1,4 +1,4 @@
-package com.ssmstudy.mapstruct;
+package com.ssmstudy.util.mapstruct;
 
 import java.util.List;
 

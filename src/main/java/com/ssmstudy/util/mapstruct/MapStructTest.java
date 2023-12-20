@@ -1,9 +1,9 @@
-package com.ssmstudy.mapstruct;
+package com.ssmstudy.util.mapstruct;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DemoTest {
+public class MapStructTest {
     public static void main(String[] args) {
         // A to B
         List<DtoA> list1 = new ArrayList<>();
