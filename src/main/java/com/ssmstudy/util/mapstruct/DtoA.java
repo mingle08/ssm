@@ -1,9 +1,12 @@
 package com.ssmstudy.util.mapstruct;
 
+import javax.persistence.Transient;
+
 import lombok.Data;
 
 @Data
 public class DtoA {
+    @Transient
     private int id;
 
     // time pattern  HH:mm
