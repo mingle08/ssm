@@ -15,4 +15,8 @@ public class DatePeriod {
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    private LocalDate paymentDate;
+
+    private LocalDate recordDate;
 }

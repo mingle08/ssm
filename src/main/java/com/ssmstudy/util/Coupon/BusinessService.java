@@ -5,60 +5,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CouponPeriodsUtil {
+public class BusinessService {
 
-    public static void main(String[] args) {
-        LocalDate issuDate = LocalDate.of(2023, 12, 10);
-        LocalDate maturityDate = LocalDate.of(2024, 6, 30);
-        List<LocalDate> holidayList = getHolidayList();
-        List<PeriodEntity> list = genPeriods_1(issuDate, maturityDate, 1, holidayList);
-        for (PeriodEntity periodEntity : list) {
-            System.out.println("startDate=" + periodEntity.getStartDate() + ", endDate=" + periodEntity.getEndDate());
-        }
-        
-    }
-    // option 1
-    public static List<PeriodEntity> genPeriods_1(LocalDate issueDate, LocalDate maturityDate, int interval, List<LocalDate> holidays) {
-        List<PeriodEntity> list = new ArrayList<>();
-        LocalDate endDate = issueDate;
-        LocalDate startDate = issueDate;
-        LocalDate calcStartDate = issueDate;
-        int dayOfMonth = issueDate.getDayOfMonth();
-        while (endDate.isBefore(maturityDate)) {
-            // origin endDate
-            endDate = calcStartDate.plusMonths(interval);
-            if (dayOfMonth > endDate.getDayOfMonth() && endDate.lengthOfMonth() >= dayOfMonth) {
-                endDate = LocalDate.of(endDate.getYear(), endDate.getMonthValue(), dayOfMonth);
-            }
-            // if holiday, forward
-            LocalDate bsnesEndDate = null;
-            if (holidays.contains(endDate)) {
-                bsnesEndDate = getNextForwardBusinessDate(endDate, 1, holidays);
-            }
-            // to use for calculate endDate
-            calcStartDate = endDate;
-            endDate = bsnesEndDate == null ? endDate : bsnesEndDate;
-
-            PeriodEntity periodEntity = new PeriodEntity();
-            periodEntity.setStartDate(startDate);
-            periodEntity.setEndDate(endDate);
-            list.add(periodEntity);
-
-            startDate = endDate;
-
-        }
-        
-        return list;
-    }
-
-    public static LocalDate getNextForwardBusinessDate(LocalDate endDate, int numsOfDay, List<LocalDate> holidays) {
+    public LocalDate getNextForwardBusinessDate(LocalDate endDate, int numsOfDay, List<LocalDate> holidays) {
         while (holidays.contains(endDate)) {
             endDate = endDate.plusDays(numsOfDay);
         }
         return endDate;
     }
 
-    public static List<LocalDate> getHolidayList() {
+    public List<LocalDate> getHolidayList() {
         List<LocalDate> list = new ArrayList<>(Arrays.asList(
             LocalDate.of(2024, 1, 1),
             LocalDate.of(2024, 1, 6),
