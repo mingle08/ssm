@@ -2,48 +2,53 @@ package com.ssmstudy.controller;
 
 import com.ssmstudy.entity.BookCategory;
 import com.ssmstudy.service.BookCategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("bookCategory")
+/**
+ * REST API controller for Book Category operations
+ */
+@RestController
+@RequestMapping("/api/v1/book-categories")
 public class BookCategoryController {
 
-	@Autowired
-	private BookCategoryService BookCategoryService;
-	
-	@RequestMapping("/list")
-	public String selectAll(Model model){
-	    // 方式1：嵌套查询
-        List<BookCategory> bookCategoryList = BookCategoryService.selectAll1();
+	private static final Logger log = LoggerFactory.getLogger(BookCategoryController.class);
 
-        // 方式2：嵌套结果
-//		List<BookCategory> bookCategoryList = BookCategoryService.selectAll2();
+	private final BookCategoryService bookCategoryService;
 
-		model.addAttribute(bookCategoryList);
-		for (BookCategory bookCategory : bookCategoryList) {
-			System.out.println(bookCategory);
-		}
-		return "bookCategoryList";
+	public BookCategoryController(BookCategoryService bookCategoryService) {
+		this.bookCategoryService = bookCategoryService;
 	}
 
-	@RequestMapping("/{id}")
-	public String selectAll(@PathVariable Integer id, Model model){
-	    // 方式1：嵌套查询
-        BookCategory BookCategory = BookCategoryService.findCategoryWithBook1(id);
-
-        // 方式2：嵌套结果
-//		BookCategory BookCategory = BookCategoryService.findCategoryWithBook2(id);
-
-		model.addAttribute(BookCategory);
-		return "bookCategoryDetail";
+	@GetMapping
+	public ResponseEntity<List<BookCategory>> listBookCategories() {
+		log.info("Fetching all book categories using nested query");
+		List<BookCategory> categories = bookCategoryService.selectAll1();
+		return ResponseEntity.ok(categories);
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<BookCategory> getBookCategory(@PathVariable Integer id) {
+		log.info("Fetching book category with id: {}", id);
+		BookCategory category = bookCategoryService.findCategoryWithBook1(id);
+		return ResponseEntity.ok(category);
+	}
 
+	@GetMapping("/nested-result")
+	public ResponseEntity<List<BookCategory>> listBookCategoriesNestedResult() {
+		log.info("Fetching all book categories using nested result");
+		List<BookCategory> categories = bookCategoryService.selectAll2();
+		return ResponseEntity.ok(categories);
+	}
 
+	@GetMapping("/nested-result/{id}")
+	public ResponseEntity<BookCategory> getBookCategoryNestedResult(@PathVariable Integer id) {
+		log.info("Fetching book category using nested result, id: {}", id);
+		BookCategory category = bookCategoryService.findCategoryWithBook2(id);
+		return ResponseEntity.ok(category);
+	}
 }

@@ -3,6 +3,7 @@ package com.ssmstudy.redis;
 import java.util.Collections;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.params.SetParams;
 
 /**
  * 摘自大佬的博客：https://www.cnblogs.com/williamjie/p/9395659.html
@@ -30,7 +31,9 @@ public class RedisLock {
      */
     public static boolean tryLock(Jedis jedis, String lockKey, String requestId, int expireTime) {
 
-        String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
+        SetParams params = SetParams.setParams().nx().ex(expireTime);
+
+        String result = jedis.set(lockKey, requestId, params);
 
         if (LOCK_SUCCESS.equals(result)) {
             return true;

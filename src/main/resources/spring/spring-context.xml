@@ -29,6 +29,24 @@
         <property name="url" value="${jdbc.url}"></property>
         <property name="username" value="${jdbc.username}"></property>
         <property name="password" value="${jdbc.password}"></property>
+        
+        <!-- Connection pool configuration -->
+        <property name="initialSize" value="5"/>
+        <property name="minIdle" value="5"/>
+        <property name="maxActive" value="20"/>
+        <property name="maxWait" value="60000"/>
+        
+        <!-- Validation settings -->
+        <property name="validationQuery" value="SELECT 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        
+        <!-- Enable monitoring and logging -->
+        <property name="filters" value="stat,wall,slf4j"/>
+        <property name="connectionProperties" value="druid.stat.slowSqlMillis=1000"/>
     </bean>
 
     <!-- 2.Mybatis 的 SqlSession的工厂：SqlSessionFactoryBean dataSource引用数据源 Mybatis

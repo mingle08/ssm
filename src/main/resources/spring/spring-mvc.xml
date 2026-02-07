@@ -11,23 +11,21 @@
         http://www.springframework.org/schema/context/spring-context.xsd  
         http://www.springframework.org/schema/tx    
         http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">  
-    <!-- 开启注解 -->  
-    <!--<mvc:annotation-driven/>-->
+    <!-- 开启注解 -->
     <!-- 设置配置方案 -->
     <mvc:annotation-driven>
         <!-- 设置不使用默认的消息转换器 -->
         <mvc:message-converters register-defaults="false">
             <!-- 配置Spring的转换器 -->
-            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="defaultCharset" value="UTF-8"/>
+            </bean>
             <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
             <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter"/>
-            <!-- 配置fastjson中实现HttpMessageConverter接口的转换器 -->
-            <bean id="fastJsonHttpMessageConverter"
-                  class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-                <!-- 加入支持的媒体类型：返回contentType -->
+            <!-- Use Jackson for JSON processing (secure alternative to FastJson) -->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
-                        <!-- 这里顺序不能反，一定先写text/html,不然ie下会出现下载提示 -->
                         <value>text/html;charset=UTF-8</value>
                         <value>application/json;charset=UTF-8</value>
                     </list>

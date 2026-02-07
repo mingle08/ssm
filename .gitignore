@@ -13,3 +13,18 @@
 *.ipr
 
 .vscode
+
+### macOS ###
+.DS_Store
+
+### Log files ###
+*.log
+logs/
+
+### Temp files ###
+*.tmp
+*.bak
+*~
+
+### Environment files ###
+.env

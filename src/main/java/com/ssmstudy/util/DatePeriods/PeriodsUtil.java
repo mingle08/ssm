@@ -6,12 +6,13 @@ import java.util.List;
 
 import com.ssmstudy.util.Coupon.BusinessService;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class PeriodsUtil {
 
     private BusinessService businessService;
+
+    public PeriodsUtil(BusinessService businessService) {
+        this.businessService = businessService;
+    }
 
     public List<DatePeriod> generateDatePeriods(LocalDate inputDate, int count, String option) {
         List<DatePeriod> DatePeriods = new ArrayList<>();

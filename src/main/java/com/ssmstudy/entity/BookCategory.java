@@ -7,6 +7,15 @@ public class BookCategory {
     private String categoryName;
     private List<Book> bookList;
 
+    public BookCategory() {
+    }
+
+    public BookCategory(Integer id, String categoryName, List<Book> bookList) {
+        this.id = id;
+        this.categoryName = categoryName;
+        this.bookList = bookList;
+    }
+
     public Integer getId() {
         return id;
     }

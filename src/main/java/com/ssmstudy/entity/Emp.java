@@ -2,16 +2,23 @@ package com.ssmstudy.entity;
 
 public class Emp {
     private Integer id;
-
     private String name;
-
     private String sex;
-
     private Integer age;
-
     private String address;
-
     private String email;
+
+    public Emp() {
+    }
+
+    public Emp(Integer id, String name, String sex, Integer age, String address, String email) {
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.address = address;
+        this.email = email;
+    }
 
     public Integer getId() {
         return id;
@@ -59,5 +66,17 @@ public class Emp {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Emp{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

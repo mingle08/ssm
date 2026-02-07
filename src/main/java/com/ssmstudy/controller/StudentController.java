@@ -1,37 +1,40 @@
 package com.ssmstudy.controller;
 
-import com.ssmstudy.entity.Student;
 import com.ssmstudy.entity.StudentDTO;
 import com.ssmstudy.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("student")
+/**
+ * REST API controller for Student operations
+ */
+@RestController
+@RequestMapping("/api/v1/students")
 public class StudentController {
 
-	@Autowired
-	private StudentService studentService;
-	
-	@RequestMapping("/list")
-	public String selectAll(Model model){
-		List<StudentDTO> StudentDTOList = studentService.selectAll();
-		model.addAttribute(StudentDTOList);
-		return "studentList";
+	private static final Logger log = LoggerFactory.getLogger(StudentController.class);
+
+	private final StudentService studentService;
+
+	public StudentController(StudentService studentService) {
+		this.studentService = studentService;
 	}
 
-	@RequestMapping("/{id}")
-	public String selectAll(@PathVariable Integer id, Model model){
-		StudentDTO studentDTO = studentService.findStudentById(id);
-		model.addAttribute(studentDTO);
-		return "studentDetail";
+	@GetMapping
+	public ResponseEntity<List<StudentDTO>> listStudents() {
+		log.info("Fetching all students");
+		List<StudentDTO> students = studentService.selectAll();
+		return ResponseEntity.ok(students);
 	}
 
-
-
+	@GetMapping("/{id}")
+	public ResponseEntity<StudentDTO> getStudent(@PathVariable Integer id) {
+		log.info("Fetching student with id: {}", id);
+		StudentDTO student = studentService.findStudentById(id);
+		return ResponseEntity.ok(student);
+	}
 }

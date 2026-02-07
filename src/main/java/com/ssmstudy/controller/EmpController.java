@@ -1,40 +1,41 @@
 package com.ssmstudy.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.ssmstudy.entity.Emp;
 import com.ssmstudy.service.EmpService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("emp")
+import java.util.List;
+
+/**
+ * REST API controller for Employee operations
+ */
+@RestController
+@RequestMapping("/api/v1/employees")
 public class EmpController {
 
-	@Autowired
-	private EmpService empService;
-	
-	@RequestMapping("/list")
-	public String selectAll(Model model){
-		List<Emp> empList = empService.selectAll();
-		model.addAttribute(empList);
-		return "empList";
+	private static final Logger log = LoggerFactory.getLogger(EmpController.class);
+
+	private final EmpService empService;
+
+	public EmpController(EmpService empService) {
+		this.empService = empService;
 	}
-	
-	@RequestMapping("/add")
-	public String add(Model model){
-		return "addEmp";
+
+	@GetMapping
+	public ResponseEntity<List<Emp>> listEmployees() {
+		log.info("Fetching all employees");
+		List<Emp> employees = empService.selectAll();
+		return ResponseEntity.ok(employees);
 	}
-	
-	@RequestMapping("/doAdd")
-	public String doAdd(Emp emp){
+
+	@PostMapping
+	public ResponseEntity<Void> createEmployee(@RequestBody Emp emp) {
+		log.info("Creating new employee: {}", emp);
 		empService.insert(emp);
-		System.out.println("添加成功！");
-		return "redirect:empList";
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
-	
-	
 }

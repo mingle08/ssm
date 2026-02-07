@@ -5,6 +5,15 @@ public class Book {
     private String bookName;
     private Float price;
 
+    public Book() {
+    }
+
+    public Book(Integer id, String bookName, Float price) {
+        this.id = id;
+        this.bookName = bookName;
+        this.price = price;
+    }
+
     public Integer getId() {
         return id;
     }

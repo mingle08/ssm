@@ -2,9 +2,6 @@ package com.ssmstudy.util.mapstruct;
 
 import javax.persistence.Transient;
 
-import lombok.Data;
-
-@Data
 public class DtoA {
     @Transient
     private int id;
@@ -15,4 +12,36 @@ public class DtoA {
     // time pattern  HH:mm
     private String toTime;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFromTime() {
+        return fromTime;
+    }
+
+    public void setFromTime(String fromTime) {
+        this.fromTime = fromTime;
+    }
+
+    public String getToTime() {
+        return toTime;
+    }
+
+    public void setToTime(String toTime) {
+        this.toTime = toTime;
+    }
+
+    @Override
+    public String toString() {
+        return "DtoA{" +
+                "id=" + id +
+                ", fromTime='" + fromTime + '\'' +
+                ", toTime='" + toTime + '\'' +
+                '}';
+    }
 }
